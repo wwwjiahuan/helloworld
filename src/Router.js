@@ -1,59 +1,48 @@
-//6. query&append;&exact;
+//7. 路由重定向 8. alias别名
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+const first = { template: '<div>{{ $route.name }} first内容</div>' }
+const second = { template: '<div>second内容</div>' }
+const home = { template: '<div>home内容</div>' }
 
-const users = {
-	template:`
+const firstFirst = { template: '<div>firstFirst内容{{$route.params.id}}</div>' }
+const firstSecond = { template: '<div>firstSecond内容{{$route.params.uid}}</div>' }
+
+const sdfs = {
+	template: `
 		<div>
-			<h2>users</h2>
-			<router-view></router-view>
-		</div>
-	`
-}
-const user = {
-	template:`
-		<div>
-			{{$route.params.username}}-
-			{{$route.query.aaa}}
-		</div>
-	`
-}
-const Home = {
-	template:`
-		<div>
-			<h2>Home</h2>
-		</div>
-	`
-}
-const first = {
-	template:`
-		<div>
-			<h2>first</h2>
-		</div>
-	`
-}
-const about = {
-	template:`
-		<div>
-			<h2>about</h2>
+			<h2>组件</h2>
+			<router-view class="bbb"></router-view>
 		</div>
 	`
 }
 const router = new VueRouter({
-	mode: 'history',
-	base: __dirname,
+	mode:'history',
+	base:__dirname,
 	routes:[
-		
-			{ path:'/',name:'Home',component:Home },
-			{ path:'/',name:'about',component:about },
-			{ path:'/first',name:'First',component:first },
-			{ path:'/users',component:users,
-				children:[
-					{path:':username',name:'user',component:user}
-				] 
+		{path:'/',name:'Home',component:home},
+		{path:'/first',component:sdfs,
+			children:[
+				{path:'/',name:'Home-First',component:first},
+				{path:'first',name:'Home-First-First',component:firstFirst},
+				{path:'second',name:'Home-First-Second',component:firstSecond},
+				{path:'third',redirect:'first'},
+			]
+		},
+		{path:'/second',name:'Home-Second',component:second,alias:['/gogo','/haha']},//8. alias别名
+		{path:'/aaa/:id',component:firstFirst},
+		{path:'/bbb/:id',redirect:'/aaa/:id'},
+		{
+			path:'/ccc/:id',
+			redirect:xxxx=> {
+				const { hash,params,query } = xxxx;
+				if (params.id == '001') {
+					return '/'
+				}
 			}
+		}
 	]
 })
 
@@ -62,37 +51,127 @@ new Vue({
 	template:`
 		<div id='r'>
 			<h1>导航</h1>
+			<p>{{ $route.name }}</p>
 			<ol>
-				<li><router-link to="/">/</router-link></li>
+				<li><router-link to="/">home</router-link></li>
 				<li><router-link to="/first">first</router-link></li>
 					<ol>
-						<li>
-							<router-link :to="{path:'/users/wos',query:{aaa:'bbb'}}">
-								wos
-							</router-link>
-						</li>
-						<li>
-							<router-link :to="{path:'/users/wodddds',query:{aaa:'ccc'}}">
-								wodddds
-							</router-link>
-						</li>
-						<li>
-							<router-link to="about" append>
-								append
-							</router-link>
-						</li>
-						<li>
-							<router-link to="about" exact>
-								exact
-							</router-link>
-						</li>
-					</ol>
+						<li><router-link :to="{ name:'Home-First-First',params:{id:123,uid:111} }">firstFirst</router-link></li>
+						<li><router-link :to="{ name:'Home-First-Second',params:{id:321,uid:222} }">firstSecond</router-link></li>
+						<li><router-link to="third">third</router-link></li>
 
+					</ol>
+				<li><router-link to="/second">second</router-link></li>
+				<li><router-link to="/gogo">gogo</router-link></li>
+				<li><router-link to="/haha">haha</router-link></li>
+
+
+				<li><router-link to="/aaa/111">aaa</router-link></li>
+				<li><router-link to="/bbb/222">bbb</router-link></li>
+				<li><router-link to="/ccc/001">ccc</router-link></li>
 			</ol>
-			<router-view></router-view>
+			<router-view class="aaa"></router-view>
 		</div>
 	`
 }).$mount('#app')
+
+
+
+//6. query&append;&exact;
+// import Vue from 'vue'
+// import VueRouter from 'vue-router'
+// Vue.use(VueRouter)
+
+
+// const users = {
+// 	template:`
+// 		<div>
+// 			<h2>users</h2>
+// 			<router-view></router-view>
+// 		</div>
+// 	`
+// }
+// const user = {
+// 	template:`
+// 		<div>
+// 			{{$route.params.username}}-
+// 			{{$route.query.aaa}}
+// 		</div>
+// 	`
+// }
+// const Home = {
+// 	template:`
+// 		<div>
+// 			<h2>Home</h2>
+// 		</div>
+// 	`
+// }
+// const first = {
+// 	template:`
+// 		<div>
+// 			<h2>first</h2>
+// 		</div>
+// 	`
+// }
+// const about = {
+// 	template:`
+// 		<div>
+// 			<h2>about</h2>
+// 		</div>
+// 	`
+// }
+// const router = new VueRouter({
+// 	mode: 'history',
+// 	base: __dirname,
+// 	routes:[
+		
+// 			{ path:'/',name:'Home',component:Home },
+// 			{ path:'/',name:'about',component:about },
+// 			{ path:'/first',name:'First',component:first },
+// 			{ path:'/users',component:users,
+// 				children:[
+// 					{path:':username',name:'user',component:user}
+// 				] 
+// 			}
+// 	]
+// })
+
+// new Vue({
+// 	router,
+// 	template:`
+// 		<div id='r'>
+// 			<h1>导航</h1>
+// 			<ol>
+// 				<li><router-link to="/">/</router-link></li>
+// 				<li><router-link to="/first">first</router-link></li>
+// 					<ol>
+// 						<li>
+// 							<router-link :to="{path:'/users/wos',query:{aaa:'bbb'}}">
+// 								wos
+// 							</router-link>
+// 						</li>
+// 						<li>
+// 							<router-link :to="{path:'/users/wodddds',query:{aaa:'ccc'}}">
+// 								wodddds
+// 							</router-link>
+// 						</li>
+// 						<li>
+// 							<router-link to="about" append>
+// 								append
+// 							</router-link>
+// 						</li>
+// 						<li>
+// 							<router-link to="about" exact>
+// 								exact
+// 							</router-link>
+// 						</li>
+// 					</ol>
+
+// 			</ol>
+// 			<router-view></router-view>
+// 		</div>
+// 	`
+// }).$mount('#app')
 
 
 //5. url传值
