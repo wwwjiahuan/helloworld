@@ -32,6 +32,12 @@ const router = new VueRouter({
 
 new Vue({
 	router,
+	//10. watch监控动画
+	data() {
+		return {
+			aaa:'fade1'
+		}
+	},
 	template:`
 		<div id="app">
 			<h1>This is Transition</h1>
@@ -39,12 +45,23 @@ new Vue({
 				<li><router-link to="/">/</li>
 				<li><router-link to="/Parent">/Parent</li>
 			</ul>
-			<transition name="fade" mode="out-in">
+			<transition :name="aaa" mode="out-in">
 				<router-view></router-view>
 			<transition>
 		</div>
 	`
+	//10. watch监控动画
+	,watch:{
+		'$route' (to,from) {
+			if (from.path == '/Parent') {
+				this.aaa = 'fade1'
+			}else{
+				this.aaa = 'fade2'
+			}
+		}
+	}
 }).$mount('#app')
+
 //7. 路由重定向 8. alias别名
 // import Vue from 'vue'
 // import VueRouter from 'vue-router'
