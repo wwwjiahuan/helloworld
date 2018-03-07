@@ -12,9 +12,16 @@
   	li.router-link-active a{
   		#color: #f66;
   	}
+  	.fade-enter-active,.fade-leave-active {
+		transition: opacity ,1s
+	}
+	.fade-enter,.fade-leave-active {
+		opacity: 0
+	}
   </style>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <div id="demo"></div>
   </body>
 </html>
