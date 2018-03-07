@@ -1,6 +1,7 @@
 //9. 路由的过渡动画
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Parent from './transition.vue'//10.2 外部引入模板
 Vue.use(VueRouter)
 
 const Home = {
@@ -12,21 +13,30 @@ const Home = {
 	`
 }
 
-const Parent = {
+// const Parent = {
+// 	template:`
+// 		<div>
+// 			<h2>Parent</h2>
+// 			<p>This is Parent</p>
+// 		</div>
+// 	`
+// }
+const Page404 = {
 	template:`
 		<div>
-			<h2>Parent</h2>
-			<p>This is Parent</p>
+			<h2>Error 404</h2>
 		</div>
 	`
 }
 
 const router = new VueRouter({
 	mode:'history',
+	// 10.3 mode:'hash'
 	base:__dirname,
 	routes:[
 		{path: '/',component:Home},
-		{path: '/Parent',component:Parent}
+		{path: '/Parent',component:Parent},
+		{path: '*',component:Page404}//10.1用*处理路径错误
 	]
 })
 
@@ -44,6 +54,7 @@ new Vue({
 			<ul>
 				<li><router-link to="/">/</li>
 				<li><router-link to="/Parent">/Parent</li>
+				<li><router-link to="/adadsfsfs">not found</li>
 			</ul>
 			<transition :name="aaa" mode="out-in">
 				<router-view></router-view>
