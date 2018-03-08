@@ -26,7 +26,18 @@ const Page404 = {
 		<div>
 			<h2>Error 404</h2>
 		</div>
-	`
+	`,
+	//12. 路由里的勾子
+	beforeRouteEnter:(to,from,next) => {
+		console.log(to)
+		console.log(from)
+		next()
+	},
+	beforeRouteLeave:(to,from,next) => {
+		console.log(to)
+		console.log(from)
+		next()
+	}
 }
 
 const router = new VueRouter({
@@ -35,7 +46,16 @@ const router = new VueRouter({
 	base:__dirname,
 	routes:[
 		{path: '/',component:Home},
-		{path: '/Parent',component:Parent},
+		{path: '/Parent',component:Parent,
+		//12. 路由里的勾子
+			beforeEnter:(to,from,next) => {
+				console.log(to)
+				console.log(from)
+				//next()//可以
+				//next(false)//不可以
+				next({path:'./sfsgdfg'})
+			}
+		},
 		{path: '*',component:Page404}//10.1用*处理路径错误
 	]
 })
