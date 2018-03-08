@@ -10,7 +10,7 @@
 <script>
 import { mapState } from 'vuex'
 //2. Mutations触发状态
-import { mapMutations } from 'vuex'
+import { mapMutations,mapGetters } from 'vuex'
 export default {
     //vuex 1. state访问状态对象v
     name:'app',
@@ -24,9 +24,15 @@ export default {
     //         return this.$store.state.count+10
     //     }
     // }
-    computed:mapState([
+    computed:{
+        ...mapState([
         "count"
-    ]),
+        ]),
+        //vuex 3. getters
+        ...mapGetters([
+            "count"
+        ])
+    },
     //2. Mutations触发状态
     methods:mapMutations([
         'jia',
