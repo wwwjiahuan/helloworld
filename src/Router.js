@@ -8,7 +8,7 @@ const Home = {
 	template:`
 		<div>
 			<h2>Home</h2>
-			<p>This is home</p>
+			<p>This is home-{{$route.query.a}}</p>
 		</div>
 	`
 }
@@ -40,6 +40,14 @@ const Page404 = {
 	}
 }
 
+const test = {
+	template:`
+		<div>
+			<h2>test404是否能显示</h2>
+		</div>
+	`
+}
+
 const router = new VueRouter({
 	mode:'history',
 	// 10.3 mode:'hash'
@@ -56,7 +64,10 @@ const router = new VueRouter({
 				next({path:'./sfsgdfg'})
 			}
 		},
-		{path: '*',component:Page404}//10.1用*处理路径错误
+		//*一定要发放在最后
+		{path: '*',component:Page404},//10.1用*处理路径错误
+		{path: '/test',component:test}
+		
 	]
 })
 
@@ -70,17 +81,38 @@ new Vue({
 	},
 	template:`
 		<div id="app">
+		// 13. 编程式导航
+			<button v-on:click="houtui">后退</button>
+			<button v-on:click="qianjin">前进</button>
+			<button v-on:click="home">返回首页</button>
+			<button v-on:click="query">query</button>
 			<h1>This is Transition</h1>
 			<ul>
 				<li><router-link to="/">/</li>
 				<li><router-link to="/Parent">/Parent</li>
 				<li><router-link to="/adadsfsfs">not found</li>
+				<li><router-link to="/test">测试404</li>
 			</ul>
 			<transition :name="aaa" mode="out-in">
 				<router-view></router-view>
 			<transition>
 		</div>
 	`
+	,methods:{
+		//13. 编程式导航
+		houtui:function() {
+			router.go(-1)
+		},
+		qianjin:function() {
+			router.go(1)
+		},
+		home:function() {
+			router.push('./')
+		},
+		query:function() {
+			router.push({path:'/',query:{a:1,b:1}})
+		}
+	}
 	//10. watch监控动画
 	,watch:{
 		'$route' (to,from) {
