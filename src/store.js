@@ -8,8 +8,8 @@ const state = {
 }
 
 const mutations = {
-    jia(state) {
-        state.count ++
+    jia(state,obj) {
+        state.count = state.count+obj.a-obj.b
     },
     jian(state) {
         state.count --
