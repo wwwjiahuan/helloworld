@@ -4,26 +4,40 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-    count : 4
+    count : 15
 }
-
+//mutations是同步的
 const mutations = {
     jia(state,obj) {
-        state.count = state.count+obj.a-obj.b
+        state.count ++;
+        state.count -- 
     },
     jian(state) {
-        state.count --
+        state.count = state.count-2
     }
 }
 //vuex 3. getters
 const getters = {
     count:function(state) {
-        return state.count += 100
+        return state.count += 1
+    }
+}
+// vuex 4. actions
+const actions = {
+    jiaplus(context) {
+        context.commit('jia',{a:1});
+        setTimeout(()=> {
+            context.commit('jian')
+        },3000)
+    },
+    jianplus(context) {
+        context.commit('jian')
     }
 }
 
 export default new Vuex.Store({
     state,
     mutations,
-    getters
+    getters,
+    actions
 })
