@@ -1,17 +1,28 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <p>propers使用</p>
+    <p>
+      <hello txt="HelloWorld" v-bind:ddddd="btnText"></hello>
+    </p>
+    <p>
+      <input type="text" v-model="btnText">
+    </p>
   </div>
 </template>
 
 <script>
-import Hello from './components/HelloWorld'
+import hello from './hello.vue'
 
 export default {
-  name: 'App',
+  name: 'app',
+  components:{hello},
+  data(){
+    return{
+      btnText:'hello world',
+    }
+  },
   methods:{
-    
+
     beforeCreate:function(){
 		console.log("1-beforeCreate 初始化之后")
     },

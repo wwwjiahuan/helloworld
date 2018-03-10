@@ -12,10 +12,15 @@ import Vue from 'vue'
 // })
 
 
-import Router from './Router'
+//import Router from './Router'
 // import transition from './transition.vue' 
 
 // new Vue({
 // 	el:'#demo',
 // 	render:xx => xx(transition)
 // })
+import App from './App.vue'
+new Vue({
+    el:'#app',
+    render:xx=>xx(App)
+})
