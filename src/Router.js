@@ -1,129 +1,193 @@
-//9. 路由的过渡动画
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Parent from './transition.vue'//10.2 外部引入模板
 Vue.use(VueRouter)
-
-const Home = {
-	template:`
-		<div>
-			<h2>Home</h2>
-			<p>This is home-{{$route.query.a}}</p>
-		</div>
-	`
-}
-
-// const Parent = {
-// 	template:`
-// 		<div>
-// 			<h2>Parent</h2>
-// 			<p>This is Parent</p>
-// 		</div>
-// 	`
-// }
-const Page404 = {
-	template:`
-		<div>
-			<h2>Error 404</h2>
-		</div>
-	`,
-	//12. 路由里的勾子
-	beforeRouteEnter:(to,from,next) => {
-		console.log(to)
-		console.log(from)
-		next()
-	},
-	beforeRouteLeave:(to,from,next) => {
-		console.log(to)
-		console.log(from)
-		next()
-	}
-}
-
-const test = {
-	template:`
-		<div>
-			<h2>test404是否能显示</h2>
-		</div>
-	`
-}
+import App from './App.vue'
+const first = { template: '<div>first内容</div>' }
+const second = { template: '<div>second内容</div>' }
+const home = { template: '<div>home内容</div>' }
 
 const router = new VueRouter({
 	mode:'history',
-	// 10.3 mode:'hash'
 	base:__dirname,
 	routes:[
-		{path: '/',component:Home},
-		{path: '/Parent',component:Parent,
-		//12. 路由里的勾子
-			beforeEnter:(to,from,next) => {
-				console.log(to)
-				console.log(from)
-				//next()//可以
-				//next(false)//不可以
-				next({path:'./sfsgdfg'})
-			}
-		},
-		//*一定要发放在最后
-		{path: '*',component:Page404},//10.1用*处理路径错误
-		{path: '/test',component:test}
-		
+		{path:'/',component:home},
+		{path:'/first',component:App},
+		{path:'/second',component:second},
 	]
 })
 
 new Vue({
 	router,
-	//10. watch监控动画
-	data() {
-		return {
-			aaa:'fade1'
-		}
-	},
 	template:`
-		<div id="app">
-		// 13. 编程式导航
-			<button v-on:click="houtui">后退</button>
-			<button v-on:click="qianjin">前进</button>
-			<button v-on:click="home">返回首页</button>
-			<button v-on:click="query">query</button>
-			<h1>This is Transition</h1>
-			<ul>
-				<li><router-link to="/">/</li>
-				<li><router-link to="/Parent">/Parent</li>
-				<li><router-link to="/adadsfsfs">not found</li>
-				<li><router-link to="/test">测试404</li>
-			</ul>
-			<transition :name="aaa" mode="out-in">
-				<router-view></router-view>
-			<transition>
+		<div id='r'>
+			<h1>导航</h1>
+			<ol>
+				<li><router-link to="/">home</router-link></li>
+				<li><router-link to="/first">first</router-link></li>
+				<li><router-link to="/second">second</router-link></li>
+			</ol>
+			<router-view class="sdfsf"></router-view>
 		</div>
-	`
-	,methods:{
-		//13. 编程式导航
-		houtui:function() {
-			router.go(-1)
-		},
-		qianjin:function() {
-			router.go(1)
-		},
-		home:function() {
-			router.push('./')
-		},
-		query:function() {
-			router.push({path:'/',query:{a:1,b:1}})
-		}
-	}
-	//10. watch监控动画
-	,watch:{
-		'$route' (to,from) {
-			if (from.path == '/Parent') {
-				this.aaa = 'fade1'
-			}else{
-				this.aaa = 'fade2'
-			}
-		}
-	}
+	`,
+	//vue1.0升级到2.0 1. 生命周期
+	beforeCreate:function(){
+		console.log("1-beforeCreate 初始化之后")
+	},
+	created:function(){
+		console.log("2-created 创建完成")
+	},
+	beforeMount:function(){
+		console.log("3-beforeMount 挂载之前")
+	},
+	mounted:function(){
+		console.log("4-mounted 被创建")
+	},
+	beforeUpdate:function(){
+		console.log("5-beforeUpdate 数据更新前")
+	},
+	updated:function(){
+		console.log("6-updated 被更新后")
+	},
+	activated:function(){
+		console.log("7-activated")
+	},
+	deactivated:function(){
+		console.log("8-deactivated")
+	},
+	beforeDestroy:function(){
+		console.log("9-beforeDestroy 销毁之前")
+	},
+	destroyed:function(){
+		console.log("10-destroyed 销毁之后")
+	},
 }).$mount('#app')
+
+//9. 路由的过渡动画
+// import Vue from 'vue'
+// import VueRouter from 'vue-router'
+// import Parent from './transition.vue'//10.2 外部引入模板
+// Vue.use(VueRouter)
+
+// const Home = {
+// 	template:`
+// 		<div>
+// 			<h2>Home</h2>
+// 			<p>This is home-{{$route.query.a}}</p>
+// 		</div>
+// 	`
+// }
+
+// // const Parent = {
+// // 	template:`
+// // 		<div>
+// // 			<h2>Parent</h2>
+// // 			<p>This is Parent</p>
+// // 		</div>
+// // 	`
+// // }
+// const Page404 = {
+// 	template:`
+// 		<div>
+// 			<h2>Error 404</h2>
+// 		</div>
+// 	`,
+// 	//12. 路由里的勾子
+// 	beforeRouteEnter:(to,from,next) => {
+// 		console.log(to)
+// 		console.log(from)
+// 		next()
+// 	},
+// 	beforeRouteLeave:(to,from,next) => {
+// 		console.log(to)
+// 		console.log(from)
+// 		next()
+// 	}
+// }
+
+// const test = {
+// 	template:`
+// 		<div>
+// 			<h2>test404是否能显示</h2>
+// 		</div>
+// 	`
+// }
+
+// const router = new VueRouter({
+// 	mode:'history',
+// 	// 10.3 mode:'hash'
+// 	base:__dirname,
+// 	routes:[
+// 		{path: '/',component:Home},
+// 		{path: '/Parent',component:Parent,
+// 		//12. 路由里的勾子
+// 			beforeEnter:(to,from,next) => {
+// 				console.log(to)
+// 				console.log(from)
+// 				//next()//可以
+// 				//next(false)//不可以
+// 				next({path:'./sfsgdfg'})
+// 			}
+// 		},
+// 		//*一定要发放在最后
+// 		{path: '*',component:Page404},//10.1用*处理路径错误
+// 		{path: '/test',component:test}
+		
+// 	]
+// })
+
+// new Vue({
+// 	router,
+// 	//10. watch监控动画
+// 	data() {
+// 		return {
+// 			aaa:'fade1'
+// 		}
+// 	},
+// 	template:`
+// 		<div id="app">
+// 		// 13. 编程式导航
+// 			<button v-on:click="houtui">后退</button>
+// 			<button v-on:click="qianjin">前进</button>
+// 			<button v-on:click="home">返回首页</button>
+// 			<button v-on:click="query">query</button>
+// 			<h1>This is Transition</h1>
+// 			<ul>
+// 				<li><router-link to="/">/</li>
+// 				<li><router-link to="/Parent">/Parent</li>
+// 				<li><router-link to="/adadsfsfs">not found</li>
+// 				<li><router-link to="/test">测试404</li>
+// 			</ul>
+// 			<transition :name="aaa" mode="out-in">
+// 				<router-view></router-view>
+// 			<transition>
+// 		</div>
+// 	`
+// 	,methods:{
+// 		//13. 编程式导航
+// 		houtui:function() {
+// 			router.go(-1)
+// 		},
+// 		qianjin:function() {
+// 			router.go(1)
+// 		},
+// 		home:function() {
+// 			router.push('./')
+// 		},
+// 		query:function() {
+// 			router.push({path:'/',query:{a:1,b:1}})
+// 		}
+// 	}
+// 	//10. watch监控动画
+// 	,watch:{
+// 		'$route' (to,from) {
+// 			if (from.path == '/Parent') {
+// 				this.aaa = 'fade1'
+// 			}else{
+// 				this.aaa = 'fade2'
+// 			}
+// 		}
+// 	}
+// }).$mount('#app')
 
 //7. 路由重定向 8. alias别名
 // import Vue from 'vue'

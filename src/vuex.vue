@@ -4,7 +4,7 @@
       <h1>Hello World</h1>
       <p>{{ $store.state.count}} - {{count}}</p>
       <button @click="$store.commit('jia',{a:1})">+</button>
-      <button @click="$store.commit('jian')">-</button>
+      <button @click=jian>-</button>
       <p>
           <!-- vuex 4. actions -->
         <button @click="jiaplus">+plus</button>
